@@ -148,7 +148,7 @@
       radial-gradient(ellipse at 70% 60%, rgba(201,168,76,0.04) 0%, transparent 50%),
       var(--bg-primary);
   }
-  .hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+
   .hero-content { position: relative; z-index: 1; text-align: center; max-width: 900px; padding: 0 40px; }
   .hero-badge {
     display: inline-block; padding: 6px 20px;
@@ -513,7 +513,6 @@
       transition-duration: 0.01ms !important;
     }
     html { scroll-behavior: auto; }
-    .hero-canvas { display: none; }
   }
 
   /* ========== RESPONSIVE ========== */
@@ -629,8 +628,7 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <canvas class="hero-canvas" id="heroCanvas"></canvas>
-  <div class="hero-content">
+<div class="hero-content">
     <div class="hero-badge">#Raceborn 生于赛道</div>
     <h1 class="hero-title">保时捷<span>赛车</span><br>传奇史诗</h1>
     <p class="hero-subtitle">1951年首次征战勒芒，19次全场冠军——七十余年间，保时捷用速度书写了赛车运动史上最辉煌的篇章。</p>
@@ -1257,11 +1255,7 @@
   var dropdownParent = document.querySelector('.nav-links > li:first-child');
   var dropdownLink = dropdownParent ? dropdownParent.querySelector('> a') : null;
   var galleryStrip = document.querySelector('.gallery-strip');
-  var canvas = document.getElementById('heroCanvas');
-  var ctx = canvas ? canvas.getContext('2d') : null;
   var nav = document.getElementById('nav');
-  var particles = [];
-  var animId = null;
   var sectionIds = ['series', 'stats', 'cars', 'history', 'tech', 'more-cars', 'drivers', 'gallery'];
 
   // ===== MODAL =====
@@ -1375,71 +1369,7 @@
     }
   });
 
-  // ===== CANVAS PARTICLES =====
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  function Particle() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1.5 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.4;
-    this.speedY = (Math.random() - 0.5) * 0.4;
-    this.opacity = Math.random() * 0.4 + 0.1;
-  }
-  Particle.prototype.update = function() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < -50 || this.x > canvas.width + 50 || this.y < -50 || this.y > canvas.height + 50) {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-    }
-  };
-  Particle.prototype.draw = function() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(213, 0, 28, ' + this.opacity + ')';
-    ctx.fill();
-  };
-
-  for (var i = 0; i < 80; i++) particles.push(new Particle());
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(function(p) { p.update(); p.draw(); });
-    for (var i = 0; i < particles.length; i++) {
-      for (var j = i + 1; j < particles.length; j++) {
-        var dx = particles[i].x - particles[j].x;
-        var dy = particles[i].y - particles[j].y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(213, 0, 28, ' + (0.04 * (1 - dist / 120)) + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-    animId = requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Canvas pause when tab hidden
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden) {
-      if (animId) { cancelAnimationFrame(animId); animId = null; }
-    } else {
-      if (!animId) animate();
-    }
-  });
-
-  // ===== COUNT-UP =====
+// ===== COUNT-UP =====
   function animateCounter(el) {
     var target = parseInt(el.dataset.target);
     var duration = 2000;
