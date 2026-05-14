@@ -16,7 +16,7 @@
     --gold: #c9a84c;
     --text-primary: #ffffff;
     --text-secondary: #b0b0b0;
-    --text-muted: #707070;
+    --text-muted: #909090;
     --border: rgba(255,255,255,0.06);
     --border-hover: rgba(255,255,255,0.12);
     --glass-bg: rgba(10, 10, 10, 0.85);
@@ -32,14 +32,13 @@
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    font-size: 16px;
   }
 
   /* ========== NAVIGATION ========== */
   .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(10, 10, 10, 0.95);
     border-bottom: 1px solid var(--border);
     transition: all 0.3s;
   }
@@ -54,7 +53,7 @@
   }
   .nav.scrolled .nav-inner { height: 52px; }
   .nav-logo {
-    font-size: 1.3rem; font-weight: 700; letter-spacing: 2px;
+    font-size: 1.2rem; font-weight: 700; letter-spacing: 2px;
     color: var(--text-primary); text-decoration: none; white-space: nowrap;
   }
   .nav-logo span { color: var(--red); }
@@ -64,7 +63,7 @@
 
   .nav-links > li > a {
     display: block; padding: 8px 14px; color: var(--text-secondary);
-    text-decoration: none; font-size: 0.8rem; letter-spacing: 0.8px;
+    text-decoration: none; font-size: 0.88rem; letter-spacing: 0.8px;
     text-transform: uppercase; transition: color 0.3s; cursor: pointer;
     white-space: nowrap; border-radius: 3px;
   }
@@ -75,8 +74,6 @@
   .nav-dropdown {
     position: absolute; top: 100%; left: 0; min-width: 220px;
     background: rgba(20,20,20,0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border);
     border-radius: 6px; padding: 8px 0;
     opacity: 0; visibility: hidden;
@@ -120,8 +117,6 @@
   .mobile-nav {
     position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
     background: rgba(10,10,10,0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     z-index: 999; overflow-y: auto; padding: 20px 0 40px;
     opacity: 0; visibility: hidden;
     transform: translateX(20px);
@@ -135,42 +130,36 @@
   }
   .mobile-nav a:hover { color: #fff; background: rgba(255,255,255,0.03); }
   .mobile-nav .mobile-section {
-    padding: 14px 40px; color: var(--red); font-size: 0.7rem;
+    padding: 14px 40px; color: var(--red); font-size: 0.8rem;
     letter-spacing: 2px; text-transform: uppercase;
   }
 
   /* ========== HERO ========== */
   .hero {
-    height: 100vh; display: flex; align-items: center; justify-content: center;
+    height: 60vh; min-height: 420px; display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
-    background:
-      radial-gradient(ellipse at 30% 50%, rgba(213,0,28,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 60%, rgba(201,168,76,0.04) 0%, transparent 50%),
-      var(--bg-primary);
+    background: var(--bg-primary);
   }
 
   .hero-content { position: relative; z-index: 1; text-align: center; max-width: 900px; padding: 0 40px; }
   .hero-badge {
     display: inline-block; padding: 6px 20px;
     border: 1px solid var(--red); color: var(--red);
-    font-size: 0.75rem; letter-spacing: 3px;
+    font-size: 0.88rem; letter-spacing: 3px;
     text-transform: uppercase; margin-bottom: 24px;
-    animation: fadeInUp 0.8s ease;
   }
   .hero-title {
     font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800;
     line-height: 1.1; letter-spacing: -1px;
-    margin-bottom: 20px; animation: fadeInUp 0.8s 0.15s ease both;
+    margin-bottom: 20px;
   }
   .hero-title span { color: var(--red); }
   .hero-subtitle {
     font-size: clamp(1rem, 1.8vw, 1.25rem); color: var(--text-secondary);
     max-width: 600px; margin: 0 auto 40px;
-    animation: fadeInUp 0.8s 0.3s ease both;
   }
   .hero-cta {
     display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-    animation: fadeInUp 0.8s 0.45s ease both;
   }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -183,20 +172,15 @@
   .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); }
   .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
 
-  .scroll-indicator {
-    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--text-muted); font-size: 0.7rem; letter-spacing: 2px;
-    animation: bounce 2s infinite;
-  }
-  .scroll-line { width: 1px; height: 40px; background: linear-gradient(transparent, var(--text-muted)); }
+  .scroll-indicator { display: none; }
+  .scroll-line { display: none; }
 
   /* ========== SECTIONS ========== */
   .section { padding: 100px 40px; }
   .section-dark { background: var(--bg-secondary); }
   .section-header { text-align: center; max-width: 700px; margin: 0 auto 80px; }
   .section-tag {
-    display: inline-block; font-size: 0.7rem; letter-spacing: 3px;
+    display: inline-block; font-size: 0.8rem; letter-spacing: 3px;
     color: var(--red); text-transform: uppercase; margin-bottom: 16px;
   }
   .section-title {
@@ -275,7 +259,7 @@
     font-size: 0.65rem; letter-spacing: 1px; z-index: 2; border-radius: 2px;
   }
   .car-card-body { padding: 20px 24px; }
-  .car-card-era { font-size: 0.7rem; color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .car-card-era { font-size: 0.8rem; color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
   .car-card-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
   .car-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 14px; }
   .car-card-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 14px; border-top: 1px solid var(--border); }
@@ -383,7 +367,7 @@
     font-size: 1.4rem; font-weight: 800; color: #fff;
   }
   .driver-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
-  .driver-role { color: var(--red); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 10px; }
+  .driver-role { color: var(--red); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px; }
   .driver-achievement { color: var(--text-muted); font-size: 0.78rem; line-height: 1.5; }
 
   /* ========== GALLERY ========== */
@@ -415,14 +399,12 @@
   }
   .footer-logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 16px; }
   .footer-logo span { color: var(--red); }
-  .footer-text { color: var(--text-muted); font-size: 0.8rem; }
+  .footer-text { color: var(--text-muted); font-size: 0.85rem; }
 
   /* ========== CAR DETAIL MODAL ========== */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 2000;
     background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     display: flex; align-items: center; justify-content: center;
     padding: 40px;
     opacity: 0; visibility: hidden;
@@ -545,18 +527,8 @@
     .gallery-item { width: 100%; height: 180px; }
   }
 
-  /* ========== ANIMATIONS ========== */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(8px); }
-  }
-
-  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal { }
+  .reveal.visible { }
 
   /* ========== CAR IMAGE BACKGROUNDS ========== */
   .car-img-917 { background: linear-gradient(135deg, #10162a 0%, #1a2450 100%); }
@@ -1369,63 +1341,16 @@
     }
   });
 
-// ===== COUNT-UP =====
-  function animateCounter(el) {
+// Show counter numbers statically
+  document.querySelectorAll('.stat-number').forEach(function(el) {
     var target = parseInt(el.dataset.target);
-    var duration = 2000;
-    var start = performance.now();
-    function update(now) {
-      var elapsed = now - start;
-      var progress = Math.min(elapsed / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var current = Math.floor(eased * target);
-      el.textContent = target >= 1000 ? current.toLocaleString() : current;
-      if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = target >= 1000 ? target.toLocaleString() : target;
-    }
-    requestAnimationFrame(update);
-  }
-
-  // ===== INTERSECTION OBSERVER =====
-  var observerOpts = { threshold: 0.12, rootMargin: '0px 0px -50px 0px' };
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        var counter = entry.target.querySelector('.stat-number');
-        if (counter && !counter.dataset.animated) {
-          counter.dataset.animated = 'true';
-          animateCounter(counter);
-        }
-      }
-    });
-  }, observerOpts);
-
-  // Timeline items get staggered delays
-  var timelineItems = document.querySelectorAll('.timeline-item');
-  timelineItems.forEach(function(item, index) {
-    item.style.transitionDelay = (index * 0.08) + 's';
-    observer.observe(item);
+    el.textContent = target >= 1000 ? target.toLocaleString() : target;
   });
 
-  document.querySelectorAll('.reveal, .stat-card, .driver-card, .car-card, .mini-car-card, .tech-card, .series-card').forEach(function(el) { observer.observe(el); });
-
-  // Initial visible check
-  setTimeout(function() {
-    document.querySelectorAll('.reveal, .stat-card, .timeline-item, .driver-card, .car-card, .mini-car-card, .tech-card, .series-card').forEach(function(el) {
-      var rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        el.classList.add('visible');
-        var counter = el.querySelector('.stat-number');
-        if (counter && !counter.dataset.animated) {
-          counter.dataset.animated = 'true';
-          animateCounter(counter);
-        }
-      }
-    });
-    updateActiveNav();
-    updateProgress();
-  }, 300);
+  // Show all timeline items immediately
+  document.querySelectorAll('.timeline-item').forEach(function(item) {
+    item.classList.add('visible');
+  });
 </script>
 </body>
 </html>
