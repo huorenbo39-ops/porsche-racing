@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porsche Racing History — 保时捷赛车传奇</title>
+<style>
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0f0f0f;
+    --bg-card: #141414;
+    --bg-card-hover: #1a1a1a;
+    --red: #d5001c;
+    --red-hover: #e60023;
+    --red-glow: rgba(213, 0, 28, 0.25);
+    --gold: #c9a84c;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #707070;
+    --border: rgba(255,255,255,0.06);
+    --border-hover: rgba(255,255,255,0.12);
+    --glass-bg: rgba(10, 10, 10, 0.85);
+    --max-width: 1280px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ========== NAVIGATION ========== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav.scrolled .nav-inner { height: 52px; }
+  .nav-logo {
+    font-size: 1.3rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--text-primary); text-decoration: none; white-space: nowrap;
+  }
+  .nav-logo span { color: var(--red); }
+
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links > li { position: relative; }
+
+  .nav-links > li > a {
+    display: block; padding: 8px 14px; color: var(--text-secondary);
+    text-decoration: none; font-size: 0.8rem; letter-spacing: 0.8px;
+    text-transform: uppercase; transition: color 0.3s; cursor: pointer;
+    white-space: nowrap; border-radius: 3px;
+  }
+  .nav-links > li > a:hover,
+  .nav-links > li > a:focus-visible { color: var(--text-primary); background: rgba(255,255,255,0.04); outline: none; }
+
+  /* Dropdown */
+  .nav-dropdown {
+    position: absolute; top: 100%; left: 0; min-width: 220px;
+    background: rgba(20,20,20,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 0;
+    opacity: 0; visibility: hidden;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  }
+  /* Desktop hover, shared active class for touch */
+  .nav-links > li:hover .nav-dropdown,
+  .nav-links > li.dropdown-open .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+
+  .nav-dropdown a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; color: var(--text-secondary);
+    text-decoration: none; font-size: 0.82rem;
+    transition: all 0.2s;
+  }
+  .nav-dropdown a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .nav-dropdown-icon {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .nav-dropdown-icon.red { background: var(--red); }
+  .nav-dropdown-icon.gold { background: var(--gold); }
+  .nav-dropdown-icon.white { background: #aaa; }
+  .nav-dropdown-icon.blue { background: #00b4d8; }
+
+  /* Mobile menu button */
+  .nav-toggle {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 8px; color: var(--text-primary);
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 1.5px; background: #fff;
+    margin: 5px 0; transition: all 0.3s;
+  }
+
+  /* Body scroll lock */
+  body.no-scroll { overflow: hidden; }
+
+  /* Mobile nav */
+  .mobile-nav {
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: rgba(10,10,10,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 999; overflow-y: auto; padding: 20px 0 40px;
+    opacity: 0; visibility: hidden;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+  }
+  .mobile-nav.active { opacity: 1; visibility: visible; transform: translateX(0); }
+  .mobile-nav a {
+    display: block; padding: 14px 40px; color: var(--text-secondary);
+    text-decoration: none; font-size: 0.9rem; letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-nav a:hover { color: #fff; background: rgba(255,255,255,0.03); }
+  .mobile-nav .mobile-section {
+    padding: 14px 40px; color: var(--red); font-size: 0.7rem;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(213,0,28,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      var(--bg-primary);
+  }
+  .hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+  .hero-content { position: relative; z-index: 1; text-align: center; max-width: 900px; padding: 0 40px; }
+  .hero-badge {
+    display: inline-block; padding: 6px 20px;
+    border: 1px solid var(--red); color: var(--red);
+    font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease;
+  }
+  .hero-title {
+    font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800;
+    line-height: 1.1; letter-spacing: -1px;
+    margin-bottom: 20px; animation: fadeInUp 0.8s 0.15s ease both;
+  }
+  .hero-title span { color: var(--red); }
+  .hero-subtitle {
+    font-size: clamp(1rem, 1.8vw, 1.25rem); color: var(--text-secondary);
+    max-width: 600px; margin: 0 auto 40px;
+    animation: fadeInUp 0.8s 0.3s ease both;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeInUp 0.8s 0.45s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; font-size: 0.85rem; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none; border: none;
+    cursor: pointer; transition: all 0.3s; font-weight: 600;
+  }
+  .btn-primary { background: var(--red); color: #fff; }
+  .btn-primary:hover { background: var(--red-hover); transform: translateY(-2px); box-shadow: 0 8px 30px var(--red-glow); }
+  .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+  .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
+
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--text-muted); font-size: 0.7rem; letter-spacing: 2px;
+    animation: bounce 2s infinite;
+  }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(transparent, var(--text-muted)); }
+
+  /* ========== SECTIONS ========== */
+  .section { padding: 100px 40px; }
+  .section-dark { background: var(--bg-secondary); }
+  .section-header { text-align: center; max-width: 700px; margin: 0 auto 80px; }
+  .section-tag {
+    display: inline-block; font-size: 0.7rem; letter-spacing: 3px;
+    color: var(--red); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700;
+    letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+  .section-desc { color: var(--text-secondary); font-size: 1.05rem; }
+
+  .container { max-width: var(--max-width); margin: 0 auto; }
+
+  /* ========== RACING SERIES ========== */
+  .series-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .series-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 32px 28px;
+    transition: all 0.3s; cursor: pointer;
+  }
+  .series-card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .series-card-icon {
+    font-size: 2rem; margin-bottom: 20px; width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px; font-weight: 900;
+  }
+  .series-card-icon.wec { background: rgba(201,168,76,0.12); color: var(--gold); }
+  .series-card-icon.imsa { background: rgba(0,180,216,0.12); color: #00b4d8; }
+  .series-card-icon.fe { background: rgba(0,230,118,0.12); color: #00e676; }
+  .series-card-icon.gt { background: rgba(213,0,28,0.12); color: var(--red); }
+  .series-card-icon.dakar { background: rgba(255,152,0,0.12); color: #ff9800; }
+  .series-card-icon.carreracup { background: rgba(156,39,176,0.12); color: #ce93d8; }
+  .series-card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+  .series-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+  /* ========== STATS COUNTER ========== */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .stat-card {
+    background: var(--bg-card); padding: 48px 32px;
+    text-align: center; transition: background 0.3s;
+  }
+  .stat-card:hover { background: var(--bg-card-hover); }
+  .stat-number {
+    font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800;
+    color: var(--red); line-height: 1; margin-bottom: 8px;
+  }
+  .stat-label { color: var(--text-secondary); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ========== CAR CARDS - FIXED ========== */
+  .cars-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .car-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+    transition: all 0.4s; cursor: pointer;
+  }
+  .car-card:hover { border-color: var(--border-hover); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  .car-card-img {
+    width: 100%; height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .car-card-img-number {
+    font-size: 4rem; font-weight: 900; opacity: 0.12;
+    color: #fff; user-select: none; pointer-events: none;
+  }
+  .car-card-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--red); color: #fff; padding: 3px 10px;
+    font-size: 0.65rem; letter-spacing: 1px; z-index: 2; border-radius: 2px;
+  }
+  .car-card-body { padding: 20px 24px; }
+  .car-card-era { font-size: 0.7rem; color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .car-card-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
+  .car-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 14px; }
+  .car-card-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .car-card-spec { text-align: center; }
+  .car-card-spec-value { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+  .car-card-spec-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.5px; }
+
+  /* ========== LE MANS BANNER ========== */
+  .lemans-banner {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    border: 1px solid var(--gold); border-left: none; border-right: none;
+    padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  .lemans-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+  .lemans-number {
+    font-size: clamp(6rem, 12vw, 10rem); font-weight: 900; line-height: 1;
+    background: linear-gradient(180deg, var(--gold) 0%, #8b7328 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; position: relative;
+  }
+  .lemans-label { font-size: 1.2rem; color: var(--text-secondary); letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; position: relative; }
+  .lemans-sub { color: var(--text-muted); font-size: 0.85rem; margin-top: 8px; position: relative; }
+
+  /* ========== TIMELINE ========== */
+  .timeline { max-width: 800px; margin: 0 auto; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 1px; background: var(--border); transform: translateX(-50%);
+  }
+  .timeline-item {
+    display: flex; align-items: flex-start; margin-bottom: 40px;
+    position: relative; opacity: 0; transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+  .timeline-item:nth-child(odd) { flex-direction: row; }
+  .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+  .timeline-content {
+    width: 43%; padding: 20px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  .timeline-content:hover { border-color: var(--border-hover); }
+  .timeline-year {
+    font-size: 1.3rem; font-weight: 800; color: var(--red); margin-bottom: 4px;
+  }
+  .timeline-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+  .timeline-desc { color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
+
+  .timeline-dot {
+    position: absolute; left: 50%; top: 18px; transform: translateX(-50%);
+    width: 12px; height: 12px; background: var(--red); border-radius: 50%;
+    border: 3px solid var(--bg-primary); z-index: 1;
+  }
+
+  /* ========== EXPANDED CARS ========== */
+  .more-cars-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .mini-car-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 24px 20px; text-align: center;
+    transition: all 0.3s; cursor: pointer;
+  }
+  .mini-car-card:hover { transform: translateY(-3px); border-color: var(--border-hover); }
+  .mini-car-year { font-size: 0.65rem; color: var(--red); letter-spacing: 2px; margin-bottom: 8px; }
+  .mini-car-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+  .mini-car-desc { color: var(--text-muted); font-size: 0.78rem; line-height: 1.5; }
+
+  /* ========== TECHNOLOGY ========== */
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .tech-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 36px 28px; transition: all 0.3s;
+  }
+  .tech-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+  .tech-card-icon { font-size: 2.2rem; margin-bottom: 20px; }
+  .tech-card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .tech-card-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+  /* ========== DRIVERS ========== */
+  .drivers-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .driver-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 28px 20px; text-align: center;
+    transition: all 0.3s;
+  }
+  .driver-card:hover { transform: translateY(-4px); border-color: var(--border-hover); }
+  .driver-avatar {
+    width: 70px; height: 70px; border-radius: 50%;
+    margin: 0 auto 14px;
+    background: linear-gradient(135deg, var(--red), #ff3b30);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 800; color: #fff;
+  }
+  .driver-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+  .driver-role { color: var(--red); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 10px; }
+  .driver-achievement { color: var(--text-muted); font-size: 0.78rem; line-height: 1.5; }
+
+  /* ========== GALLERY ========== */
+  .gallery-strip {
+    display: flex; overflow: hidden;
+    max-width: var(--max-width); margin: 0 auto;
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  .gallery-item {
+    flex: 1; min-width: 0; height: 260px;
+    display: flex; align-items: flex-end;
+    transition: all 0.5s ease; cursor: pointer;
+    position: relative; padding: 20px;
+  }
+  .gallery-item:hover { flex: 1.8; }
+  .gallery-item::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.75));
+  }
+  .gallery-label {
+    position: relative; z-index: 1; font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 1px; opacity: 0; transition: opacity 0.3s;
+  }
+  .gallery-item:hover .gallery-label { opacity: 1; }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    padding: 60px 40px 30px; border-top: 1px solid var(--border); text-align: center;
+  }
+  .footer-logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 16px; }
+  .footer-logo span { color: var(--red); }
+  .footer-text { color: var(--text-muted); font-size: 0.8rem; }
+
+  /* ========== CAR DETAIL MODAL ========== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px;
+    opacity: 0; visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .modal-overlay.active { opacity: 1; visibility: visible; }
+  .modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 720px; width: 100%; max-height: 85vh;
+    overflow-y: auto; padding: 40px;
+    position: relative;
+    transform: translateY(20px) scale(0.97);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-overlay.active .modal { transform: translateY(0) scale(1); }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--border); background: none;
+    color: #fff; font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.08); border-color: var(--border-hover); }
+  .modal-era { font-size: 0.7rem; color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .modal-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .modal-badge { display: inline-block; background: var(--red); color: #fff; font-size: 0.7rem; padding: 3px 10px; letter-spacing: 1px; margin-bottom: 16px; }
+  .modal-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 24px; }
+  .modal-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .modal-spec { background: rgba(255,255,255,0.03); padding: 14px; text-align: center; border-radius: 4px; }
+  .modal-spec-value { font-size: 1.2rem; font-weight: 700; }
+  .modal-spec-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 4px; }
+  .modal-extra { border-top: 1px solid var(--border); padding-top: 20px; }
+  .modal-extra h4 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px; }
+  .modal-extra p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+  /* ========== GALLERY MOBILE ========== */
+  .gallery-strip.has-active .gallery-item { flex: 0.5; }
+  .gallery-strip.has-active .gallery-item.active { flex: 3; }
+  .gallery-strip.has-active .gallery-item.active .gallery-label { opacity: 1; }
+
+  /* ========== READING PROGRESS BAR ========== */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--red); z-index: 2000;
+    width: 0%; transition: width 0.1s linear;
+  }
+
+  /* ========== BACK TO TOP ========== */
+  .back-to-top {
+    position: fixed; bottom: 30px; right: 30px; z-index: 900;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: #fff; font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+  .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  .back-to-top:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+
+  /* ========== SKIP LINK ========== */
+  .skip-link {
+    position: fixed; top: -100px; left: 20px; z-index: 9999;
+    background: var(--red); color: #fff; padding: 10px 20px;
+    font-size: 0.85rem; text-decoration: none; border-radius: 4px;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 10px; }
+
+  /* ========== NAV ACTIVE STATE ========== */
+  .nav-links > li > a.active,
+  .nav-links > li > a[aria-current] { color: #fff; }
+  .nav-links > li > a.active::after,
+  .nav-links > li > a[aria-current]::after { width: 100%; }
+
+  /* ========== FOCUS VISIBLE ========== */
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .nav a:focus-visible { outline-offset: -2px; }
+
+  /* ========== REDUCED MOTION ========== */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .hero-canvas { display: none; }
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .cars-grid, .series-grid { grid-template-columns: repeat(2, 1fr); }
+    .more-cars-grid { grid-template-columns: repeat(2, 1fr); }
+    .drivers-grid, .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+    .nav-inner { padding: 0 20px; }
+    .hero { height: 90vh; }
+    .section { padding: 60px 20px; }
+    .cars-grid, .series-grid { grid-template-columns: 1fr; }
+    .more-cars-grid { grid-template-columns: repeat(2, 1fr); }
+    .drivers-grid, .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { left: 20px; }
+    .timeline-item, .timeline-item:nth-child(even) { flex-direction: row; }
+    .timeline-content { width: calc(100% - 48px); margin-left: 48px; }
+    .timeline-dot { left: 20px; }
+    .gallery-strip { flex-wrap: wrap; }
+    .gallery-item { flex: none; width: 50%; height: 160px; }
+    .gallery-label { opacity: 1; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid, .drivers-grid, .more-cars-grid, .tech-grid { grid-template-columns: 1fr; }
+    .gallery-item { width: 100%; height: 180px; }
+  }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ========== CAR IMAGE BACKGROUNDS ========== */
+  .car-img-917 { background: linear-gradient(135deg, #10162a 0%, #1a2450 100%); }
+  .car-img-956 { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+  .car-img-gt1 { background: linear-gradient(135deg, #2a1515 0%, #3d1f1f 100%); }
+  .car-img-919 { background: linear-gradient(135deg, #14141e 0%, #1e1e30 100%); }
+  .car-img-935 { background: linear-gradient(135deg, #1a1a2a 0%, #252540 100%); }
+  .car-img-963 { background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); }
+  .car-img-550 { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); }
+  .car-img-718rsk { background: linear-gradient(135deg, #1a2020 0%, #283030 100%); }
+  .car-img-904 { background: linear-gradient(135deg, #202020 0%, #2a2a2a 100%); }
+  .car-img-936 { background: linear-gradient(135deg, #181820 0%, #282838 100%); }
+  .car-img-rsspyder { background: linear-gradient(135deg, #1a1a1a 0%, #2a2020 100%); }
+  .car-img-99x { background: linear-gradient(135deg, #0a1628 0%, #142840 100%); }
+</style>
+</head>
+<body>
+
+<!-- SKIP LINK -->
+<a href="#series" class="skip-link">跳过导航，直达内容</a>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">PORSCHE<span>.</span>RACING</a>
+    <ul class="nav-links">
+      <li>
+        <a href="#series">赛车系列 <span style="font-size:0.6rem;">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="#series"><span class="nav-dropdown-icon gold"></span> WEC 世界耐力锦标赛</a>
+          <a href="#series"><span class="nav-dropdown-icon blue"></span> IMSA WeatherTech</a>
+          <a href="#series"><span class="nav-dropdown-icon white"></span> Formula E 电动方程式</a>
+          <a href="#series"><span class="nav-dropdown-icon red"></span> GT 赛车</a>
+          <a href="#series"><span class="nav-dropdown-icon white"></span> Carrera Cup 卡雷拉杯</a>
+          <a href="#series"><span class="nav-dropdown-icon white"></span> 达喀尔拉力赛</a>
+        </div>
+      </li>
+      <li><a href="#cars">传奇赛车</a></li>
+      <li><a href="#history">历史时间线</a></li>
+      <li><a href="#tech">技术传承</a></li>
+      <li><a href="#drivers">车手</a></li>
+      <li><a href="#more-cars">更多赛车</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-section">赛车系列</div>
+  <a href="#series">WEC 世界耐力锦标赛</a>
+  <a href="#series">IMSA WeatherTech</a>
+  <a href="#series">Formula E 电动方程式</a>
+  <a href="#series">GT 赛车</a>
+  <a href="#series">Carrera Cup 卡雷拉杯</a>
+  <a href="#series">达喀尔拉力赛</a>
+  <div class="mobile-section">更多内容</div>
+  <a href="#cars">传奇赛车</a>
+  <a href="#history">历史时间线</a>
+  <a href="#tech">技术传承</a>
+  <a href="#drivers">传奇车手</a>
+  <a href="#more-cars">更多赛车</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">#Raceborn 生于赛道</div>
+    <h1 class="hero-title">保时捷<span>赛车</span><br>传奇史诗</h1>
+    <p class="hero-subtitle">1951年首次征战勒芒，19次全场冠军——七十余年间，保时捷用速度书写了赛车运动史上最辉煌的篇章。</p>
+    <div class="hero-cta">
+      <a href="#series" class="btn btn-primary">探索赛车系列</a>
+      <a href="#cars" class="btn btn-outline">传奇赛车</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- RACING SERIES -->
+<section class="section" id="series">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Racing Series</div>
+      <h2 class="section-title">保时捷赛车系列</h2>
+      <p class="section-desc">从耐力赛的巅峰到电动方程式的新战场，保时捷在世界各大顶级赛事中持续征战。</p>
+    </div>
+    <div class="series-grid">
+      <div class="series-card reveal">
+        <div class="series-card-icon wec">WEC</div>
+        <h3 class="series-card-title">FIA 世界耐力锦标赛 (WEC)</h3>
+        <p class="series-card-desc">保时捷 Penske Motorsport 以两台 Porsche 963 LMDh 赛车参赛。2024和2025年连续夺得 IMSA 冠军后，全力冲击勒芒第20冠。Manthey 车队同时运营两台 911 GT3 R 参加 LMGT3 组别。</p>
+      </div>
+      <div class="series-card reveal">
+        <div class="series-card-icon imsa">IMSA</div>
+        <h3 class="series-card-title">IMSA WeatherTech 锦标赛</h3>
+        <p class="series-card-desc">Porsche Penske Motorsport 在 2024、2025 赛季连续夺得 IMSA GTP 组别总冠军。963 赛车在北美赛场延续着保时捷的统治力，剑指戴通纳24小时和赛百灵12小时。</p>
+      </div>
+      <div class="series-card reveal">
+        <div class="series-card-icon fe">FE</div>
+        <h3 class="series-card-title">ABB FIA Formula E</h3>
+        <p class="series-card-desc">保时捷99X Electric 赛车在电动方程式赛场上延续赛道基因。Pascal Wehrlein 在第十赛季加冕车手世界冠军，保时捷在零排放赛事中开辟全新战场。</p>
+      </div>
+      <div class="series-card reveal">
+        <div class="series-card-icon gt">GT</div>
+        <h3 class="series-card-title">GT 赛车</h3>
+        <p class="series-card-desc">保时捷 911 GT3 R 是全球 GT3 赛场上最成功的赛车之一。从 FIA WEC 的 LMGT3 组别到纽博格林24小时，911 在每一个 GT 赛场都留下冠军印记。</p>
+      </div>
+      <div class="series-card reveal">
+        <div class="series-card-icon carreracup">CC</div>
+        <h3 class="series-card-title">Porsche Carrera Cup</h3>
+        <p class="series-card-desc">全球最具影响力的单一品牌赛事之一，覆盖德国、法国、亚洲、日本、北美等多个赛区。Carrera Cup 是无数职业车手通往顶级赛事的跳板。</p>
+      </div>
+      <div class="series-card reveal">
+        <div class="series-card-icon dakar">DAKAR</div>
+        <h3 class="series-card-title">拉力赛传奇</h3>
+        <p class="series-card-desc">1984年，保时捷 911 Carrera 4x4 (953) 首次参赛即赢得巴黎-达喀尔拉力赛。1986年，959 Paris-Dakar 再次夺冠，书写了保时捷在拉力赛场的传奇。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section section-dark" id="stats">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Records & Achievements</div>
+      <h2 class="section-title">赛道荣誉</h2>
+      <p class="section-desc">保时捷是耐力赛历史上最成功的制造商，这些数字是七十余年技术积淀的见证。</p>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number" data-target="19">0</div>
+      <div class="stat-label">勒芒全场冠军</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="7">0</div>
+      <div class="stat-label">勒芒连胜 (1981-1987)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="50">0</div>
+      <div class="stat-label">勒芒组别冠军</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-target="30000">0</div>
+      <div class="stat-label">+ 全球赛事胜利</div>
+    </div>
+  </div>
+</section>
+
+<!-- LE MANS BANNER -->
+<div class="lemans-banner reveal">
+  <div class="lemans-number">19</div>
+  <div class="lemans-label">Le Mans Overall Victories</div>
+  <div class="lemans-sub">1951年至今，没有任何制造商比保时捷赢得更多勒芒24小时耐力赛冠军</div>
+</div>
+
+<!-- LEGENDARY CARS -->
+<section class="section" id="cars">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Legendary Machines</div>
+      <h2 class="section-title">传奇赛车</h2>
+      <p class="section-desc">每一台赛车都代表着一个时代的巅峰——从称霸勒芒的917到改写历史的919 Hybrid。</p>
+    </div>
+  </div>
+  <div class="cars-grid">
+    <!-- 917 -->
+    <div class="car-card reveal" data-car="917">
+      <div class="car-card-img car-img-917">
+        <span class="car-card-img-number">917</span>
+        <span class="car-card-badge">Le Mans ×2</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">1969 — 1973</div>
+        <h3 class="car-card-name">Porsche 917</h3>
+        <p class="car-card-desc">为保时捷夺得首个勒芒冠军的传奇原型车。水平对置12缸引擎，史蒂夫·麦昆电影《Le Mans》中的永恒经典。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">630 bhp</div>
+            <div class="car-card-spec-label">马力</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">390 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">800 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 956 / 962 -->
+    <div class="car-card reveal" data-car="956">
+      <div class="car-card-img car-img-956">
+        <span class="car-card-img-number">956</span>
+        <span class="car-card-badge">Le Mans ×7</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">1982 — 1994</div>
+        <h3 class="car-card-name">Porsche 956 / 962C</h3>
+        <p class="car-card-desc">耐力赛最具统治力的赛车。首款单体壳+地面效应保时捷，1982-87七连胜。Stefan Bellof 在纽北创下6:11.13传奇纪录。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">~750 bhp</div>
+            <div class="car-card-spec-label">马力(排位)</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">360 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">820 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 911 GT1 -->
+    <div class="car-card reveal" data-car="gt1">
+      <div class="car-card-img car-img-gt1">
+        <span class="car-card-img-number">GT1</span>
+        <span class="car-card-badge">Le Mans ×1</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">1996 — 1998</div>
+        <h3 class="car-card-name">Porsche 911 GT1 '98</h3>
+        <p class="car-card-desc">保时捷首款碳纤维单体壳赛车，品牌50周年之际以包揽1-2名夺得勒芒冠军，911赛车进化的巅峰。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">550 bhp</div>
+            <div class="car-card-spec-label">马力</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">330 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">950 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 919 Hybrid -->
+    <div class="car-card reveal" data-car="919">
+      <div class="car-card-img car-img-919">
+        <span class="car-card-img-number">919</span>
+        <span class="car-card-badge">Le Mans ×3</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">2014 — 2017</div>
+        <h3 class="car-card-name">Porsche 919 Hybrid</h3>
+        <p class="car-card-desc">革命性混合动力LMP1赛车，2.0L V4涡轮+双能量回收，综合~900hp。勒芒三连冠+WEC三连双料冠军。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">~900 hp</div>
+            <div class="car-card-spec-label">综合马力</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">340 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">875 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 935 -->
+    <div class="car-card reveal" data-car="935">
+      <div class="car-card-img car-img-935">
+        <span class="car-card-img-number">935</span>
+        <span class="car-card-badge">Le Mans ×1</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">1976 — 1979</div>
+        <h3 class="car-card-name">Porsche 935</h3>
+        <p class="car-card-desc">基于911的Group 5"Silhouette"赛车，1979年暴雨中击败所有原型车赢得勒芒——"最伟大的911赛车"。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">845 bhp</div>
+            <div class="car-card-spec-label">马力</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">366 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">970 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 963 -->
+    <div class="car-card reveal" data-car="963">
+      <div class="car-card-img car-img-963">
+        <span class="car-card-img-number">963</span>
+        <span class="car-card-badge">LMDh 2023+</span>
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-era">2023 — Present</div>
+        <h3 class="car-card-name">Porsche 963</h3>
+        <p class="car-card-desc">重返顶级原型车赛事的最新力作。4.6L V8双涡轮+混动系统，在WEC和IMSA双线作战，冲击勒芒第20冠。</p>
+        <div class="car-card-specs">
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">680 hp</div>
+            <div class="car-card-spec-label">综合马力</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">330 km/h</div>
+            <div class="car-card-spec-label">极速</div>
+          </div>
+          <div class="car-card-spec">
+            <div class="car-card-spec-value">1,030 kg</div>
+            <div class="car-card-spec-label">车重</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY TIMELINE -->
+<section class="section section-dark" id="history">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Racing History</div>
+      <h2 class="section-title">赛道史诗</h2>
+      <p class="section-desc">七十余年，从斯图加特到勒芒，保时捷用速度与创新铸就了赛车运动史上最辉煌的篇章。</p>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1951</div><h4 class="timeline-title">勒芒首秀 · 356 SL</h4>
+      <p class="timeline-desc">保时捷首次征战勒芒24小时耐力赛，流线型356 SL即赢得组别冠军，创下最短进站时间纪录。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1953</div><h4 class="timeline-title">550 Spyder 双雄</h4>
+      <p class="timeline-desc">两台保时捷550 Spyder在勒芒包揽1.5升组别冠亚军，开启了保时捷中置引擎赛车的辉煌传统。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1970</div><h4 class="timeline-title">首个全场冠军 · 917 KH</h4>
+      <p class="timeline-desc">Hans Herrmann与Richard Attwood驾驶917 KH赢得保时捷首个勒芒全场冠军。九台917对阵十一台法拉利512——至黎明时分三台917领先。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1971</div><h4 class="timeline-title">纪录之年 · 917 再胜</h4>
+      <p class="timeline-desc">Helmut Marko与Gijs van Lennep驾驶917 KH成功卫冕，创下397圈/5335km的距离纪录，保持了39年。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1979</div><h4 class="timeline-title">935 逆袭 · 雨天封王</h4>
+      <p class="timeline-desc">基于911的935赛车在暴雨中击败众多原型车，赢得勒芒全场冠军——一台GT赛车干掉了所有更高级别的对手。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1981</div><h4 class="timeline-title">奇迹逆转 · 936</h4>
+      <p class="timeline-desc">Jacky Ickx在暴雨中连续驾驶两个3.5小时，驾驶936从第41位一路追至冠军——勒芒史上最伟大的逆转之一。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1982–1987</div><h4 class="timeline-title">王朝 · 956/962C 七连胜</h4>
+      <p class="timeline-desc">956与962C统治耐力赛，实现勒芒前所未有的七连胜。1982年首次参赛即包揽前五名。1983年Bellof在纽北创下6:11.13。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1984</div><h4 class="timeline-title">911 征服达喀尔</h4>
+      <p class="timeline-desc">保时捷911 Carrera 4x4 (953)首次参加巴黎-达喀尔拉力赛即夺得全场冠军。1986年，959再度称雄达喀尔。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1994</div><h4 class="timeline-title">962绝唱 · Dauer 962 LM</h4>
+      <p class="timeline-desc">凭借GT1规则漏洞，Dauer 962 LM公路版改造赛车在勒芒夺得全场冠军——962家族的传奇终章。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">1998</div><h4 class="timeline-title">50周年献礼 · 911 GT1</h4>
+      <p class="timeline-desc">首款碳纤维单体壳保时捷赛车，在品牌50周年时包揽1-2名，夺得第16座勒芒冠军奖杯。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">2015–2017</div><h4 class="timeline-title">混合动力时代 · 919 Hybrid</h4>
+      <p class="timeline-desc">919 Hybrid实现勒芒三连冠+WEC三连双料冠军。2017年从落后18圈逆转夺冠，铸就不朽传奇。</p>
+    </div><div class="timeline-dot"></div></div>
+
+    <div class="timeline-item"><div class="timeline-content">
+      <div class="timeline-year">2023</div><h4 class="timeline-title">重返顶级 · 963 LMDh</h4>
+      <p class="timeline-desc">保时捷携963 LMDh重返勒芒顶级组别，在百年勒芒大赛中开启新纪元，剑指第20座勒芒冠军。</p>
+    </div><div class="timeline-dot"></div></div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY HERITAGE -->
+<section class="section" id="tech">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Technology Heritage</div>
+      <h2 class="section-title">技术传承</h2>
+      <p class="section-desc">赛道是保时捷技术创新的试验场——从涡轮增压到混合动力，赛车技术不断反哺公路跑车。</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">⚡</div>
+        <h3 class="tech-card-title">涡轮增压</h3>
+        <p class="tech-card-desc">1974年，911 Carrera RSR Turbo在勒芒首秀即获全场第二。保时捷将涡轮增压技术从赛道推向公路，开创了911 Turbo的传奇系列。</p>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">🔄</div>
+        <h3 class="tech-card-title">PDK双离合变速器</h3>
+        <p class="tech-card-desc">保时捷在1980年代的956/962赛车上率先测试PDK双离合变速箱，比这项技术普及于公路车提前了二十余年。</p>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">🔋</div>
+        <h3 class="tech-card-title">混合动力系统</h3>
+        <p class="tech-card-desc">919 Hybrid的革命性800V混动系统——2.0L V4涡轮引擎+前轴动能回收+废气能量回收——其技术直接影响了Taycan电动跑车的开发。</p>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">🪶</div>
+        <h3 class="tech-card-title">碳纤维单体壳</h3>
+        <p class="tech-card-desc">1998年的911 GT1 '98是保时捷首款采用碳纤维单体壳的赛车。如今，从918 Spyder到911 GT3，碳纤维已融入保时捷的DNA。</p>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">🌬️</div>
+        <h3 class="tech-card-title">地面效应空气动力学</h3>
+        <p class="tech-card-desc">1982年的956是保时捷首款全面运用地面效应的赛车，结合铝制单体壳底盘，重新定义了耐力赛的空气动力学标准。</p>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-card-icon">🏎️</div>
+        <h3 class="tech-card-title">中置引擎布局</h3>
+        <p class="tech-card-desc">从1953年的550 Spyder到963，中置引擎布局一直是保时捷赛车的核心。如今的718 Cayman GT4 Clubsport继承了这一赛道基因。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MORE CARS -->
+<section class="section section-dark" id="more-cars">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Complete Lineage</div>
+      <h2 class="section-title">更多传奇赛车</h2>
+      <p class="section-desc">从1950年代到电动时代，保时捷赛车的完整谱系。</p>
+    </div>
+    <div class="more-cars-grid">
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1953–1956</div>
+        <div class="mini-car-name">550 Spyder</div>
+        <p class="mini-car-desc">保时捷首款专为赛道设计的中置引擎赛车，在勒芒、Carrera Panamericana和Targa Florio中赢得组别冠军。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1957–1959</div>
+        <div class="mini-car-name">718 RSK</div>
+        <p class="mini-car-desc">F2方程式冠军赛车，Jean Behra在Reims击败一众强敌获胜，奠定了保时捷在方程式赛场的地位。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1964–1965</div>
+        <div class="mini-car-name">904 Carrera GTS</div>
+        <p class="mini-car-desc">玻璃纤维车身的优雅赛车，在勒芒、Targa Florio等多场赛事中获得组别冠军。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1966–1969</div>
+        <div class="mini-car-name">906 / 907 / 908 / 910</div>
+        <p class="mini-car-desc">中置引擎原型车的快速进化期——907/908于1968年在Daytona包揽前三名。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1976–1981</div>
+        <div class="mini-car-name">936</div>
+        <p class="mini-car-desc">涡轮增压开放式座舱原型车，三届勒芒冠军（1976, 1977, 1981），包括1981年的史诗逆转。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">2005–2008</div>
+        <div class="mini-car-name">RS Spyder</div>
+        <p class="mini-car-desc">LMP2原型车在American Le Mans Series中统治赛场（2006-2008），击败众多更高级别LMP1赛车。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">2019–Present</div>
+        <div class="mini-car-name">99X Electric</div>
+        <p class="mini-car-desc">保时捷Formula E赛车，Pascal Wehrlein在第十赛季夺得车手世界冠军，2022年墨西哥站历史性包揽1-2名。</p>
+      </div>
+      <div class="mini-car-card reveal">
+        <div class="mini-car-year">1984–1986</div>
+        <div class="mini-car-name">959 Paris-Dakar</div>
+        <p class="mini-car-desc">基于959超级跑车的拉力赛车，1986年征服巴黎-达喀尔拉力赛，展示了保时捷在越野赛场的全能实力。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRIVERS -->
+<section class="section" id="drivers">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Legendary Drivers & Engineers</div>
+      <h2 class="section-title">传奇人物</h2>
+      <p class="section-desc">伟大的赛车离不开伟大的驾驭者和创造者，他们与保时捷一起刻下了赛车史上的不朽名字。</p>
+    </div>
+  </div>
+  <div class="drivers-grid">
+    <div class="driver-card reveal">
+      <div class="driver-avatar">JI</div>
+      <div class="driver-name">Jacky Ickx</div>
+      <div class="driver-role">6届勒芒冠军</div>
+      <p class="driver-achievement">1981年暴雨中从第41位逆转夺冠，"勒芒先生"，956/962王朝核心车手。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">DB</div>
+      <div class="driver-name">Derek Bell</div>
+      <div class="driver-role">5届勒芒冠军</div>
+      <p class="driver-achievement">956/962七连胜时代的见证者与创造者，保时捷最忠实的冠军搭档。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">HH</div>
+      <div class="driver-name">Hans Herrmann</div>
+      <div class="driver-role">首个勒芒冠军</div>
+      <p class="driver-achievement">1970年与Attwood为保时捷夺得首个勒芒全场冠军，兑现承诺赛后退役。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">AM</div>
+      <div class="driver-name">Allan McNish</div>
+      <div class="driver-role">1998勒芒冠军</div>
+      <p class="driver-achievement">驾驶911 GT1 '98在保时捷50周年之际赢得勒芒，F1+WEC双料传奇。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">TB</div>
+      <div class="driver-name">Timo Bernhard</div>
+      <div class="driver-role">2届勒芒冠军</div>
+      <p class="driver-achievement">2017年勒芒从落后18圈逆转夺冠的核心车手，919 Hybrid时代标志人物。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">SB</div>
+      <div class="driver-name">Stefan Bellof</div>
+      <div class="driver-role">纽北纪录缔造者</div>
+      <p class="driver-achievement">1983年驾驶956在纽北创下6:11.13传奇圈速，这个纪录保持了整整35年。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">PW</div>
+      <div class="driver-name">Pascal Wehrlein</div>
+      <div class="driver-role">FE世界冠军</div>
+      <p class="driver-achievement">保时捷Formula E领军人物，第十赛季加冕电动方程式车手世界冠军。</p>
+    </div>
+    <div class="driver-card reveal">
+      <div class="driver-avatar">NS</div>
+      <div class="driver-name">Norbert Singer</div>
+      <div class="driver-role">传奇工程师</div>
+      <p class="driver-achievement">917/956/962/911 GT1的设计之父——保时捷16座勒芒奖杯背后的工程大脑。</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section section-dark" id="gallery">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Gallery</div>
+      <h2 class="section-title">视觉盛宴</h2>
+      <p class="section-desc">每一帧都是速度与美学的完美融合。</p>
+    </div>
+    <div class="gallery-strip reveal">
+      <div class="gallery-item" style="background: linear-gradient(135deg, #10162a, #1a2450);"><div class="gallery-label">Porsche 917 KH · 1970 Le Mans</div></div>
+      <div class="gallery-item" style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d);"><div class="gallery-label">Porsche 956 · Nürburgring 1983</div></div>
+      <div class="gallery-item" style="background: linear-gradient(135deg, #2a1515, #3d1f1f);"><div class="gallery-label">Porsche 911 GT1 · 1998 Le Mans</div></div>
+      <div class="gallery-item" style="background: linear-gradient(135deg, #14141e, #1e1e30);"><div class="gallery-label">Porsche 919 Hybrid · 2017 Victory</div></div>
+      <div class="gallery-item" style="background: linear-gradient(135deg, #0d1117, #161b22);"><div class="gallery-label">Porsche 963 · Le Mans 2023</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="返回顶部">&#8593;</button>
+
+<!-- CAR DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="关闭">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">PORSCHE<span>.</span>RACING</div>
+  <p class="footer-text">本网站为保时捷赛车历史爱好者页面，与 Dr. Ing. h.c. F. Porsche AG 无关。<br>所有商标归其各自所有者所有。&copy; 2026 Porsche Racing History</p>
+</footer>
+
+<script>
+  // ===== CAR DATA FOR MODAL =====
+  var carData = {
+    '917': {
+      era: '1969 \u2014 1973', name: 'Porsche 917',
+      badge: 'Le Mans \u00d72 (1970, 1971)',
+      desc: '\u4e3a\u4fdd\u65f6\u6377\u593a\u5f97\u9996\u4e2a\u52d2\u8292\u5168\u573a\u51a0\u519b\u7684\u4f20\u5947\u539f\u578b\u8f66\u3002\u5728 Ferdinand Pi\u00ebch \u7684\u9886\u5bfc\u4e0b\u4ec510\u4e2a\u6708\u4fbf\u5b8c\u6210\u5f00\u53d1\uff0c1969\u5e74\u65e5\u5185\u74e6\u8f66\u5c55\u9996\u6b21\u4eae\u76f8\u3002\u642d\u8f7d\u6c34\u5e73\u5bf9\u7f6e12\u7f38\u5f15\u64ce\uff0c917 KH\uff08\u77ed\u5c3e\u7248\uff09\u57281970\u5e74\u7531 Hans Herrmann \u4e0e Richard Attwood \u9a7e\u9a76\u8d62\u5f97\u4fdd\u65f6\u6377\u9996\u4e2a\u52d2\u8292\u51a0\u519b\u3002',
+      specs: [
+        { value: '630 bhp', label: '\u6700\u5927\u9a6c\u529b' }, { value: '390 km/h', label: '\u6781\u901f (LH\u957f\u5c3e\u7248)' },
+        { value: '800 kg', label: '\u8f66\u91cd' }, { value: '4.5-5.0L', label: '\u6392\u91cf' },
+        { value: 'Flat-12', label: '\u5f15\u64ce\u5e03\u5c40' }, { value: '4/5\u901f', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: '917/30 Spyder \u6da1\u8f6e\u589e\u538b\u7248\u5728 Can-Am \u7cfb\u5217\u8d5b\u4e2d\u8f93\u51fa\u9ad8\u8fbe1,580\u9a6c\u529b\uff0c0-100km/h\u4ec5\u97002.1\u79d2\u3002917/20 \u201c\u7c89\u7ea2\u732a\u201d \u4ee5\u5176\u72ec\u7279\u6d82\u88c5\u6210\u4e3a\u8d5b\u8f66\u53f2\u4e0a\u6700\u5177\u8fa8\u8bc6\u5ea6\u7684\u8d5b\u8f66\u4e4b\u4e00\u30021971\u5e74\u521b\u4e0b\u7684397\u5708/5,335km\u7eaa\u5f55\u4fdd\u6301\u4e8639\u5e74\u3002'
+    },
+    '956': {
+      era: '1982 \u2014 1994', name: 'Porsche 956 / 962C',
+      badge: 'Le Mans \u00d77 (1982-1987 + 1994)',
+      desc: '\u8010\u529b\u8d5b\u5386\u53f2\u4e0a\u6700\u5177\u7edf\u6cbb\u529b\u7684\u8d5b\u8f66\u7cfb\u5217\u3002\u7531 Norbert Singer \u8bbe\u8ba1\uff0c956 \u662f\u4fdd\u65f6\u6377\u9996\u6b3e\u91c7\u7528\u94dd\u5236\u5355\u4f53\u58f3\u5e95\u76d8\u4e0e\u5168\u9762\u5730\u9762\u6548\u5e94\u7a7a\u6c14\u52a8\u529b\u5b66\u7684\u8d5b\u8f66\u30021982\u5e74\u52d2\u8292\u9996\u6b21\u4eae\u76f8\u5373\u5305\u63fd1-2-3\u540d\u3002',
+      specs: [
+        { value: '~750 bhp', label: '\u9a6c\u529b (\u6392\u4f4d\u8d5b)' }, { value: '360 km/h', label: '\u6781\u901f' },
+        { value: '820 kg', label: '\u8f66\u91cd' }, { value: '2.65L', label: '\u6392\u91cf' },
+        { value: 'Flat-6 Turbo', label: '\u5f15\u64ce' }, { value: '5\u901f/PDK', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: '962C \u4e3a\u9002\u5e94 IMSA \u89c4\u5219\u5c06\u8f74\u8ddd\u52a0\u957f12cm\u5e76\u589e\u52a0\u94a2\u5236\u9632\u6eda\u67b6\u30021982-1987\u5e74\u52d2\u8292\u4e03\u8fde\u80dc\u81f3\u4eca\u65e0\u4eba\u80fd\u7834\u30021983\u5e74 Stefan Bellof \u9a7e\u9a76956\u5728\u7ebd\u5317\u521b\u4e0b6:11.13\u7684\u4f20\u5947\u5708\u901f\uff0c\u4fdd\u630135\u5e74\u3002'
+    },
+    'gt1': {
+      era: '1996 \u2014 1998', name: 'Porsche 911 GT1 \'98',
+      badge: 'Le Mans \u00d71 (1998)',
+      desc: '\u4fdd\u65f6\u6377\u9996\u6b3e\u91c7\u7528\u78b3\u7ea4\u7ef4\u5355\u4f53\u58f3\u7684\u52d2\u8292\u8d5b\u8f66\u3002\u4e2d\u7f6e\u5f15\u64ce\u5e03\u5c40\uff0c\u5728\u54c1\u724c50\u5468\u5e74\u4e4b\u9645\u7531 Laurent Aiello\u3001Allan McNish \u4e0e Stephane Ortelli \u9a7e\u9a76\u4ee5\u5305\u63fd1-2\u540d\u593a\u5f97\u52d2\u8292\u7b2c16\u51a0\u3002',
+      specs: [
+        { value: '550 bhp', label: '\u6700\u5927\u9a6c\u529b' }, { value: '330 km/h', label: '\u6781\u901f' },
+        { value: '950 kg', label: '\u8f66\u91cd' }, { value: '3.2L', label: '\u6392\u91cf' },
+        { value: 'Flat-6 Turbo', label: '\u5f15\u64ce' }, { value: '6\u901f\u5e8f\u5217', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: '\u4e3a\u6ee1\u8db3\u8ba4\u8bc1\u8981\u6c42\uff0c\u4fdd\u65f6\u6377\u4ec5\u5236\u9020\u4e86\u4e00\u53f0\u516c\u8def\u7248 Strassenversion\uff0c536\u9a6c\u529b\uff0c0-100km/h\u4ec5\u97003.9\u79d2\uff0c\u6781\u901f308km/h\u3002911 GT1\u4ee3\u8868\u4e86\u98ce\u51b7911\u8d5b\u8f66\u8fdb\u5316\u7684\u7ec8\u6781\u5f62\u6001\u3002'
+    },
+    '919': {
+      era: '2014 \u2014 2017', name: 'Porsche 919 Hybrid',
+      badge: 'Le Mans \u00d73 (2015, 2016, 2017)',
+      desc: '\u9769\u547d\u6027\u7684\u6df7\u5408\u52a8\u529b LMP1 \u8d5b\u8f66\u30022.0L V4 \u6da1\u8f6e\u589e\u538b\u6c7d\u6cb9\u5f15\u64ce\uff08\u7ea6500hp\uff09\u914d\u5408\u524d\u8f74\u52a8\u80fd\u56de\u6536+\u5e9f\u6c14\u80fd\u91cf\u56de\u6536\u53cc\u7cfb\u7edf\uff08\u7ea6400hp\uff09\uff0c\u7efc\u5408\u8f93\u51fa\u7ea6900\u9a6c\u529b\u5e76\u5b9e\u73b0\u56db\u8f6e\u9a71\u52a8\u3002\u52d2\u8292\u4e09\u8fde\u51a0+\u4e09\u8fdeWEC\u53cc\u6599\u51a0\u519b\u3002',
+      specs: [
+        { value: '~900 hp', label: '\u7efc\u5408\u9a6c\u529b' }, { value: '340 km/h', label: '\u6781\u901f' },
+        { value: '875 kg', label: '\u8f66\u91cd' }, { value: '2.0L V4 Turbo', label: '\u5f15\u64ce' },
+        { value: '800V', label: '\u6df7\u52a8\u7cfb\u7edf\u7535\u538b' }, { value: '7\u901f\u5e8f\u5217', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: '2017\u5e74\u52d2\u8292\u582a\u79f0\u53f2\u8bd7\u2014\u2014919\u5728\u6bd4\u8d5b\u521d\u671f\u56e0\u6545\u969c\u843d\u540e18\u5708\uff0cTimo Bernhard\u3001Earl Bamber \u4e0e Brendon Hartley \u75af\u72c2\u8ffd\u51fb\u6700\u7ec8\u9006\u8f6c\u593a\u51a0\u3002919 Hybrid Evo \u81f4\u656c\u7248\u57282018\u5e74\u6253\u7834\u591a\u9879\u8d5b\u9053\u7eaa\u5f55\uff0c\u7ebd\u5317\u5708\u901f5\u520619\u79d2546\u3002'
+    },
+    '935': {
+      era: '1976 \u2014 1979', name: 'Porsche 935',
+      badge: 'Le Mans \u00d71 (1979)',
+      desc: '\u57fa\u4e8e911\u7684 Group 5 \u201cSilhouette\u201d \u8d5b\u8f66\uff0c935\u662f\u4fdd\u65f6\u6377\u6da1\u8f6e\u589e\u538b\u6280\u672f\u7684\u96c6\u5927\u6210\u8005\u30021979\u5e74\u52d2\u8292\uff0c\u66b4\u96e8\u5e2d\u5377\u3001\u539f\u578b\u8f66\u7eb7\u7eb7\u9000\u8d5b\u2014\u2014Klaus Ludwig \u4e0e Whittington \u5144\u5f1f\u9a7e\u9a76935\u5728\u6781\u7aef\u5929\u6c14\u4e2d\u51fb\u8d25\u6240\u6709\u5bf9\u624b\u593a\u51a0\u3002',
+      specs: [
+        { value: '845 bhp', label: '\u6700\u5927\u9a6c\u529b' }, { value: '366 km/h', label: '\u6781\u901f (Mulsanne)' },
+        { value: '970 kg', label: '\u8f66\u91cd' }, { value: '2.85L-3.2L', label: '\u6392\u91cf' },
+        { value: 'Flat-6 Turbo', label: '\u5f15\u64ce' }, { value: '4\u901f', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: '935\u7684\u7ef0\u53f7\u5305\u62ec\u201cMoby Dick\u201d\uff08\u957f\u5c3e\u7248\uff09\u548c\u201cBaby\u201d\u3002\u51ed\u501f\u5176\u6050\u6016\u7684\u6da1\u8f6e\u52a8\u529b\u548c\u72ec\u7279\u7684911\u8f6e\u5ed3\uff0c935\u5728\u5168\u7403\u5404\u5927\u8d5b\u4e8b\u4e2d\u5171\u8d62\u5f97\u8d85\u8fc7150\u573a\u80dc\u5229\uff0c\u88ab\u8f66\u8ff7\u8a89\u4e3a\u201c\u6700\u4f1f\u5927\u7684911\u8d5b\u8f66\u201d\u3002'
+    },
+    '963': {
+      era: '2023 \u2014 Present', name: 'Porsche 963',
+      badge: 'LMDh \u539f\u578b\u8f66',
+      desc: '\u4fdd\u65f6\u6377\u91cd\u8fd4\u9876\u7ea7\u539f\u578b\u8f66\u8d5b\u4e8b\u7684\u6700\u65b0\u529b\u4f5c\u3002\u642d\u8f7d\u57fa\u4e8e918 Spyder\u516c\u8def\u8f66\u8fdb\u5316\u76844.6L V8\u53cc\u6da1\u8f6e\u589e\u538b\u5f15\u64ce\uff0c\u914d\u5408\u6807\u51c6\u6df7\u5408\u52a8\u529b\u5355\u5143\u8f93\u51fa680\u9a6c\u529b\u3002\u7531 Porsche Penske Motorsport \u8fd0\u8425\uff0c\u5728 WEC \u4e0e IMSA \u53cc\u7ebf\u4f5c\u6218\u3002',
+      specs: [
+        { value: '680 hp', label: '\u7efc\u5408\u9a6c\u529b' }, { value: '330 km/h', label: '\u6781\u901f' },
+        { value: '1,030 kg', label: '\u8f66\u91cd' }, { value: '4.6L V8 Turbo', label: '\u5f15\u64ce' },
+        { value: 'Multimatic', label: '\u5e95\u76d8' }, { value: '7\u901f\u5e8f\u5217', label: '\u53d8\u901f\u7bb1' }
+      ],
+      extra: 'Porsche Penske Motorsport \u57282024\u548c2025\u8d5b\u5b63\u8fde\u7eed\u593a\u5f97 IMSA GTP \u7ec4\u522b\u603b\u51a0\u519b\u3002\u57282023\u5e74\u52d2\u8292\u767e\u5e74\u5927\u8d5b\u4e2d\uff0c\u4e09\u53f0963\u8d5b\u8f66\u5168\u90e8\u5b8c\u8d5b\u3002\u8f66\u961f\u5168\u529b\u51b2\u51fb\u52d2\u8292\u7b2c20\u51a0\u3002'
+    }
+  };
+
+  function buildModalHTML(d) {
+    var h = '<div class="modal-era">' + d.era + '</div>';
+    h += '<h2 class="modal-title">' + d.name + '</h2>';
+    h += '<span class="modal-badge">' + d.badge + '</span>';
+    h += '<p class="modal-desc">' + d.desc + '</p>';
+    h += '<div class="modal-specs">';
+    d.specs.forEach(function(s) {
+      h += '<div class="modal-spec"><div class="modal-spec-value">' + s.value + '</div><div class="modal-spec-label">' + s.label + '</div></div>';
+    });
+    h += '</div><div class="modal-extra"><h4>\u66f4\u591a\u6545\u4e8b</h4><p>' + d.extra + '</p></div>';
+    return h;
+  }
+
+  // ===== DOM REFS =====
+  var modalOverlay = document.getElementById('modalOverlay');
+  var modalContentEl = document.getElementById('modalContent');
+  var modalClose = document.getElementById('modalClose');
+  var progressBar = document.getElementById('progressBar');
+  var backToTop = document.getElementById('backToTop');
+  var navToggle = document.getElementById('navToggle');
+  var mobileNav = document.getElementById('mobileNav');
+  var dropdownParent = document.querySelector('.nav-links > li:first-child');
+  var dropdownLink = dropdownParent ? dropdownParent.querySelector('> a') : null;
+  var galleryStrip = document.querySelector('.gallery-strip');
+  var canvas = document.getElementById('heroCanvas');
+  var ctx = canvas ? canvas.getContext('2d') : null;
+  var nav = document.getElementById('nav');
+  var particles = [];
+  var animId = null;
+  var sectionIds = ['series', 'stats', 'cars', 'history', 'tech', 'more-cars', 'drivers', 'gallery'];
+
+  // ===== MODAL =====
+  function openModal(carKey) {
+    var d = carData[carKey];
+    if (!d) return;
+    modalContentEl.innerHTML = buildModalHTML(d);
+    modalOverlay.classList.add('active');
+    document.body.classList.add('no-scroll');
+  }
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+  }
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function(e) { if (e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+  });
+  document.querySelectorAll('.car-card[data-car]').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var key = card.dataset.car;
+      if (key) openModal(key);
+    });
+  });
+
+  // ===== MOBILE NAV + BODY LOCK =====
+  navToggle.addEventListener('click', function() {
+    var isActive = mobileNav.classList.toggle('active');
+    document.body.classList.toggle('no-scroll', isActive);
+  });
+  mobileNav.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileNav.classList.remove('active');
+      document.body.classList.remove('no-scroll');
+    });
+  });
+
+  // ===== DROPDOWN TOGGLE FOR TOUCH =====
+  if (dropdownLink) {
+    dropdownLink.addEventListener('click', function(e) {
+      if (window.innerWidth <= 1024) {
+        e.preventDefault();
+        dropdownParent.classList.toggle('dropdown-open');
+      }
+    });
+  }
+  document.addEventListener('click', function(e) {
+    if (dropdownParent && !dropdownParent.contains(e.target)) {
+      dropdownParent.classList.remove('dropdown-open');
+    }
+  });
+
+  // ===== GALLERY CLICK TOGGLE =====
+  if (galleryStrip) {
+    galleryStrip.querySelectorAll('.gallery-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          var wasActive = this.classList.contains('active');
+          galleryStrip.querySelectorAll('.gallery-item').forEach(function(i) { i.classList.remove('active'); });
+          galleryStrip.classList.remove('has-active');
+          if (!wasActive) { this.classList.add('active'); galleryStrip.classList.add('has-active'); }
+        }
+      });
+    });
+  }
+
+  // ===== SCROLL SPY =====
+  var navLinks = document.querySelectorAll('.nav-links > li > a[href^="#"]');
+  function updateActiveNav() {
+    var scrollPos = window.scrollY + 120;
+    var currentId = '';
+    sectionIds.forEach(function(id) {
+      var section = document.getElementById(id);
+      if (section && section.offsetTop <= scrollPos) currentId = id;
+    });
+    navLinks.forEach(function(link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + currentId) link.classList.add('active');
+    });
+  }
+
+  // ===== PROGRESS BAR =====
+  function updateProgress() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = Math.min(progress, 100) + '%';
+  }
+
+  // ===== BACK TO TOP =====
+  function updateBackToTop() {
+    backToTop.classList.toggle('visible', window.scrollY > 600);
+  }
+  backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ===== COMBINED SCROLL HANDLER =====
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        nav.classList.toggle('scrolled', window.scrollY > 50);
+        updateActiveNav();
+        updateProgress();
+        updateBackToTop();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // ===== CANVAS PARTICLES =====
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function Particle() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.4;
+    this.speedY = (Math.random() - 0.5) * 0.4;
+    this.opacity = Math.random() * 0.4 + 0.1;
+  }
+  Particle.prototype.update = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < -50 || this.x > canvas.width + 50 || this.y < -50 || this.y > canvas.height + 50) {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+    }
+  };
+  Particle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(213, 0, 28, ' + this.opacity + ')';
+    ctx.fill();
+  };
+
+  for (var i = 0; i < 80; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(function(p) { p.update(); p.draw(); });
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var dx = particles[i].x - particles[j].x;
+        var dy = particles[i].y - particles[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(213, 0, 28, ' + (0.04 * (1 - dist / 120)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    animId = requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Canvas pause when tab hidden
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (animId) { cancelAnimationFrame(animId); animId = null; }
+    } else {
+      if (!animId) animate();
+    }
+  });
+
+  // ===== COUNT-UP =====
+  function animateCounter(el) {
+    var target = parseInt(el.dataset.target);
+    var duration = 2000;
+    var start = performance.now();
+    function update(now) {
+      var elapsed = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(eased * target);
+      el.textContent = target >= 1000 ? current.toLocaleString() : current;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target >= 1000 ? target.toLocaleString() : target;
+    }
+    requestAnimationFrame(update);
+  }
+
+  // ===== INTERSECTION OBSERVER =====
+  var observerOpts = { threshold: 0.12, rootMargin: '0px 0px -50px 0px' };
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        var counter = entry.target.querySelector('.stat-number');
+        if (counter && !counter.dataset.animated) {
+          counter.dataset.animated = 'true';
+          animateCounter(counter);
+        }
+      }
+    });
+  }, observerOpts);
+
+  // Timeline items get staggered delays
+  var timelineItems = document.querySelectorAll('.timeline-item');
+  timelineItems.forEach(function(item, index) {
+    item.style.transitionDelay = (index * 0.08) + 's';
+    observer.observe(item);
+  });
+
+  document.querySelectorAll('.reveal, .stat-card, .driver-card, .car-card, .mini-car-card, .tech-card, .series-card').forEach(function(el) { observer.observe(el); });
+
+  // Initial visible check
+  setTimeout(function() {
+    document.querySelectorAll('.reveal, .stat-card, .timeline-item, .driver-card, .car-card, .mini-car-card, .tech-card, .series-card').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('visible');
+        var counter = el.querySelector('.stat-number');
+        if (counter && !counter.dataset.animated) {
+          counter.dataset.animated = 'true';
+          animateCounter(counter);
+        }
+      }
+    });
+    updateActiveNav();
+    updateProgress();
+  }, 300);
+</script>
+</body>
+</html>
